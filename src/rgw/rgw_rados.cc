@@ -237,6 +237,8 @@ const string& RGWZoneGroup::get_names_oid_prefix()
 }
 
 const string& RGWZoneGroup::get_predefined_name(CephContext *cct) {
+  ldout(cct, 4) << "get_predefined_name returning rgw_zonegroup="
+      << cct->_conf->rgw_zonegroup << dendl;
   return cct->_conf->rgw_zonegroup;
 }
 

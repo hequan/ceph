@@ -286,7 +286,10 @@ int main(int argc, const char **argv)
 
   // for region -> zonegroup conversion (must happen before common_init_finish())
   if (!g_conf->rgw_region.empty() && g_conf->rgw_zonegroup.empty()) {
+    dout(1) << "detected missing rgw_zonegroup, but rgw_region="
+        << g_conf->rgw_region << dendl;
     g_conf->set_val_or_die("rgw_zonegroup", g_conf->rgw_region.c_str());
+    dout(1) << "rgw_zonegroup set to " << g_conf->rgw_zonegroup << dendl;
   }
 
   check_curl();
