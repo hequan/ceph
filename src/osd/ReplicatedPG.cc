@@ -5492,6 +5492,7 @@ int ReplicatedPG::do_osd_ops(OpContext *ctx, vector<OSDOp>& ops)
 	  }
 	  dout(10) << " found existing watch " << w << " by " << entity << dendl;
 	  ctx->watch_connects.push_back(make_pair(w, true));
+	  ctx->modify = true;
         } else if (op.watch.op == CEPH_OSD_WATCH_OP_PING) {
 	  if (!oi.watchers.count(make_pair(cookie, entity))) {
 	    result = -ENOTCONN;
@@ -5508,6 +5509,7 @@ int ReplicatedPG::do_osd_ops(OpContext *ctx, vector<OSDOp>& ops)
 	  dout(10) << " found existing watch " << w << " by " << entity << dendl;
 	  p->second->got_ping(ceph_clock_now(NULL));
 	  result = 0;
+	  ctx->modify = true;
         } else if (op.watch.op == CEPH_OSD_WATCH_OP_UNWATCH) {
 	  map<pair<uint64_t, entity_name_t>, watch_info_t>::iterator oi_iter =
 	    oi.watchers.find(make_pair(cookie, entity));
@@ -5518,6 +5520,7 @@ int ReplicatedPG::do_osd_ops(OpContext *ctx, vector<OSDOp>& ops)
 	    t->nop(soid);  // update oi on disk
 	    ctx->watch_disconnects.push_back(
 	      watch_disconnect_t(cookie, entity, false));
+	    ctx->modify = true;
 	  } else {
 	    dout(10) << " can't remove: no watch by " << entity << dendl;
 	  }
