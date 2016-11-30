@@ -1974,9 +1974,7 @@ bool ECBackend::try_finish_rmw()
     }
   }
 
-  if (pipeline_state.caching_enabled() || op->requires_rmw()) {
-    cache.release_write_pin(op->pin);
-  }
+  cache.release_write_pin(op->pin);
   tid_to_op_map.erase(op->tid);
 
   if (waiting_reads.empty() &&
