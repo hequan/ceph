@@ -19,6 +19,7 @@ TasksMax=infinity
 Restart=on-failure
 StartLimitInterval=30min
 StartLimitBurst=3
+RestartSec=5min
 
 [Install]
 WantedBy=ceph-osd.target
