@@ -3005,6 +3005,7 @@ def start_daemon(
                 [
                     'systemctl',
                     'enable',
+                    '--runtime',
                     'ceph-osd@{osd_id}'.format(osd_id=osd_id),
                 ],
             )
@@ -3076,6 +3077,7 @@ def stop_daemon(
                 [
                     'systemctl',
                     'disable',
+                    '--runtime',
                     'ceph-osd@{osd_id}'.format(osd_id=osd_id),
                 ],
             )
