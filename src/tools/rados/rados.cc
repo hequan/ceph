@@ -689,7 +689,7 @@ int LoadGen::bootstrap(const char *pool)
     return ret;
   }
 
-  int buf_len = 1;
+  int buf_len = max_obj_len;//write full
   bufferptr p = buffer::create(buf_len);
   bufferlist bl;
   memset(p.c_str(), 0, buf_len);
@@ -699,7 +699,7 @@ int LoadGen::bootstrap(const char *pool)
   for (i = 0; i < num_objs; i++) {
     obj_info info;
     gen_rand_alphanumeric(buf, 16);
-    info.name = "obj-";
+    info.name = "hequan-";//tag is hequan 
     info.name.append(buf);
     info.len = get_random(min_obj_len, max_obj_len);
 
@@ -719,7 +719,7 @@ int LoadGen::bootstrap(const char *pool)
     librados::AioCompletion *c = rados->aio_create_completion(NULL, NULL, NULL);
     completions.push_back(c);
     // generate object
-    ret = io_ctx.aio_write(info.name, c, bl, buf_len, info.len - buf_len);
+    ret = io_ctx.aio_write(info.name, c, bl, buf_len, 0);//off is 0
     if (ret < 0) {
       cerr << "couldn't write obj: " << info.name << " ret=" << ret << std::endl;
       return ret;
@@ -770,7 +770,7 @@ void LoadGen::gen_op(LoadGenOp *op)
   size_t len = get_random(min_op_len, max_op_len);
   if (len > info.len)
     len = info.len;
-  size_t off = get_random(0, info.len);
+  size_t off = get_random(0, 4096);//off range from 0 to 4096
 
   if (off + len > info.len)
     off = info.len - len;
