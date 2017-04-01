@@ -281,7 +281,7 @@ OPTION(mon_osd_min_in_ratio, OPT_DOUBLE, .75)   // min osds required to be in to
 OPTION(mon_osd_max_op_age, OPT_DOUBLE, 32)     // max op age before we get concerned (make it a power of 2)
 OPTION(mon_osd_max_split_count, OPT_INT, 32) // largest number of PGs per "involved" OSD to let split create
 OPTION(mon_osd_allow_primary_temp, OPT_BOOL, false)  // allow primary_temp to be set in the osdmap
-OPTION(mon_osd_allow_primary_affinity, OPT_BOOL, false)  // allow primary_affinity to be set in the osdmap
+OPTION(mon_esd_allow_primary_affinity, OPT_BOOL, false)  // allow primary_affinity to be set in the osdmap
 OPTION(mon_osd_allow_pg_remap, OPT_BOOL, false) // allow pg remap to be set in the osdmap
 OPTION(mon_osd_prime_pg_temp, OPT_BOOL, true)  // prime osdmap with pg mapping changes
 OPTION(mon_osd_prime_pg_temp_max_time, OPT_FLOAT, .5)  // max time to spend priming
@@ -688,6 +688,8 @@ OPTION(osd_erasure_code_plugins, OPT_STR,
        " isa"
 #endif
        ) // list of erasure code plugins
+
+OPTION(osd_ec_debug, OPT_INT, 0)   //debug the ec rollback
 
 // Allows the "peered" state for recovery and backfill below min_size
 OPTION(osd_allow_recovery_below_min_size, OPT_BOOL, true)

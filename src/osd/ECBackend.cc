@@ -904,6 +904,12 @@ void ECBackend::handle_sub_write(
 	  get_parent()->whoami_shard().shard));
     }
   }
+
+  if(cct->_conf->osd_ec_debug == 1)
+  {
+     assert(0 == "debug 1");   //inject 1
+  }
+  
   clear_temp_objs(op.temp_removed);
   get_parent()->log_operation(
     op.log_entries,
@@ -912,6 +918,11 @@ void ECBackend::handle_sub_write(
     op.roll_forward_to,
     !op.backfill,
     localt);
+
+  if(cct->_conf->osd_ec_debug == 2)
+  {
+     assert(0 == "debug 2");  //inject 2 after log_operation
+  }
 
   PrimaryLogPG *_rPG = dynamic_cast<PrimaryLogPG *>(get_parent());
   if (_rPG && !_rPG->is_undersized() &&
